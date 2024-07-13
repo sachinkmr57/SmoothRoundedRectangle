@@ -3,6 +3,9 @@
 ## Overview
 A custom SwiftUI shape which mimics Figma's smooth corner rounding for rectangles. The smoothness value can be anyting between 0 to 100, 0 with completely circular corner radius and 100 with full smoothness. Corners to which rounding has to be applied can be specified as well. The amount of rounding can be even more than half of the smaller dimension of rectangle just like in Figma.
 
+### Detail explanation
+Article: [Parametric corner smoothing in SwiftUI](https://medium.com/@zvyom/parametric-corner-smoothing-in-swiftui-108acea52874)
+
 ## Usage
 Below are few examples:
 #### Uniform radii on all corners with custom smoothing
@@ -29,3 +32,17 @@ SmoothRoundedRectangle(
     smoothness: .iOS)
     .frame(width: 240, height: 120)
 ```
+
+### Using inside clipShape
+``` swift
+ContentView()
+    .clipShape(SmoothRoundedRectangle(radius: 12, smoothness: .iOS))
+```
+## Results and comparison
+#### A comparison of zero smoothness and 60%. <br>
+The indigo corner has 60% smoothing and the green one has no smoothing. <br>
+![Group 7](https://github.com/user-attachments/assets/0390b622-a23f-42a9-a19f-0b12a059e6bb)
+
+#### A comparison of different smoothnesses and comparison with Figma's smoothness. <br>
+<img width="2541" alt="Comparison" src="https://github.com/user-attachments/assets/4e3bf650-7670-483c-889f-ec865a756972">
+

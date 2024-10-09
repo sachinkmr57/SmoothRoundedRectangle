@@ -16,7 +16,7 @@ public extension SmoothRoundedRectangle {
         case custom(_: CGFloat) // Custom factor between 0 and 100
     }
     
-    struct Corners: OptionSet {
+    struct Corners: OptionSet, Sendable {
         
         public let rawValue: Int
         public init(rawValue: Int) {

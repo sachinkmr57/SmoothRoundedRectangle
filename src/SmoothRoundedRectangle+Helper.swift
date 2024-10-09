@@ -11,7 +11,7 @@ typealias CornerAttributes = SmoothRoundedRectangle.SmoothCornerAttributes
 
 extension SmoothRoundedRectangle {
 
-    /// Attribues required for rounding a corner
+    /// Attributes required for rounding a corner
     struct SmoothCornerAttributes {
         var radius: CGFloat
         var smoothness: CGFloat

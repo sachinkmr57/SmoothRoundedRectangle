@@ -14,7 +14,7 @@ public struct SmoothRoundedRectangle: Shape {
     let bottomLeftCorner: CornerAttributes
     let bottomRightCorner: CornerAttributes
     
-    // MARK: - Initialisers
+    // MARK: - Initializers
     
     /// Standard all corners with optional smoothness and same radius
     public init(radius: CGFloat, smoothness: Smoothness = .none) {

@@ -1,5 +1,5 @@
 //
-//  SmoothRoundedRectangle+Attribtues.swift
+//  SmoothRoundedRectangle+Attributes.swift
 //  SmoothRoundedRectangle
 //
 //  Created by Kumar on 06/07/24.

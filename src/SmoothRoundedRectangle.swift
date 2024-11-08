@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct SmoothRoundedRectangle: Shape {
+public struct SmoothRoundedRectangle: InsettableShape {
 
     let topLeftCorner: CornerAttributes
     let topRightCorner: CornerAttributes

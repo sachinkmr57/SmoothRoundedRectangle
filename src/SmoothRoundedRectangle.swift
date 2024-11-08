@@ -8,12 +8,14 @@
 import SwiftUI
 
 public struct SmoothRoundedRectangle: Shape {
-    
+
     let topLeftCorner: CornerAttributes
     let topRightCorner: CornerAttributes
     let bottomLeftCorner: CornerAttributes
     let bottomRightCorner: CornerAttributes
-    
+
+    var insetAmount = 0.0
+
     // MARK: - Initializers
     
     /// Standard all corners with optional smoothness and same radius
@@ -50,7 +52,9 @@ public struct SmoothRoundedRectangle: Shape {
     // MARK: - Path
     
     public func path(in rect: CGRect) -> Path {
-        let normRect = normalizeCorners(rect, rectAttr: SmoothRectangleAttributes(
+        let insetRect = rect.insetBy(dx: insetAmount, dy: insetAmount)
+
+        let normRect = normalizeCorners(insetRect, rectAttr: SmoothRectangleAttributes(
             topRight: topRightCorner,
             bottomRight: bottomRightCorner,
             bottomLeft: bottomLeftCorner,
@@ -60,11 +64,12 @@ public struct SmoothRoundedRectangle: Shape {
         var path = Path()
         path.move(to: CGPoint(x: normRect.topLeft.segmentLength, y: 0))
         
-        drawCornerPath(&path, in: rect, cornerAttributes: normRect.topRight, corner: .topRight)
-        drawCornerPath(&path, in: rect, cornerAttributes: normRect.bottomRight, corner: .bottomRight)
-        drawCornerPath(&path, in: rect, cornerAttributes: normRect.bottomLeft, corner: .bottomLeft)
-        drawCornerPath(&path, in: rect, cornerAttributes: normRect.topLeft, corner: .topLeft)
+        drawCornerPath(&path, in: insetRect, cornerAttributes: normRect.topRight, corner: .topRight)
+        drawCornerPath(&path, in: insetRect, cornerAttributes: normRect.bottomRight, corner: .bottomRight)
+        drawCornerPath(&path, in: insetRect, cornerAttributes: normRect.bottomLeft, corner: .bottomLeft)
+        drawCornerPath(&path, in: insetRect, cornerAttributes: normRect.topLeft, corner: .topLeft)
         path.closeSubpath()
-        return path
+
+        return path.offsetBy(dx: insetAmount, dy: insetAmount)
     }
 }

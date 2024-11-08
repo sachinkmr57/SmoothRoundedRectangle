@@ -72,4 +72,12 @@ public struct SmoothRoundedRectangle: Shape {
 
         return path.offsetBy(dx: insetAmount, dy: insetAmount)
     }
+
+    // MARK: - Insettable
+
+    public func inset(by amount: CGFloat) -> some InsettableShape {
+        var shape = self
+        shape.insetAmount += amount
+        return shape
+    }
 }

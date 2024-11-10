@@ -23,15 +23,15 @@ public extension SmoothRoundedRectangle {
             self.rawValue = rawValue
         }
         
-        static let topLeft = Corners(rawValue: 1 << 0)
-        static let topRight = Corners(rawValue: 1 << 1)
-        static let bottomLeft = Corners(rawValue: 1 << 2)
-        static let bottomRight = Corners(rawValue: 1 << 3)
+        public static let topLeft = Corners(rawValue: 1 << 0)
+        public static let topRight = Corners(rawValue: 1 << 1)
+        public static let bottomLeft = Corners(rawValue: 1 << 2)
+        public static let bottomRight = Corners(rawValue: 1 << 3)
         
-        static let all: Corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
-        static let top: Corners = [.topLeft, .topRight]
-        static let bottom: Corners = [.bottomLeft, .bottomRight]
-        static let left: Corners = [.topLeft, .bottomLeft]
-        static let right: Corners = [.topRight, .bottomRight]
+        public static let all: Corners = [.topLeft, .topRight, .bottomLeft, .bottomRight]
+        public static let top: Corners = [.topLeft, .topRight]
+        public static let bottom: Corners = [.bottomLeft, .bottomRight]
+        public static let left: Corners = [.topLeft, .bottomLeft]
+        public static let right: Corners = [.topRight, .bottomRight]
     }
 }

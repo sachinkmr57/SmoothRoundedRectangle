@@ -1,12 +1,11 @@
-// swift-tools-version: 5.5
-
+// swift-tools-version: 6.0
 import PackageDescription
 
 let package = Package(
     name: "SmoothRoundedRectangle",
     platforms: [
-        .iOS(.v13),
-        .macOS(.v10_15),
+        .iOS(.v16),
+        .macOS(.v15),
         .tvOS(.v13),
         .watchOS(.v6),
     ],

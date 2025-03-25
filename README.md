@@ -11,26 +11,27 @@ Below are few examples:
 #### Uniform radii on all corners with custom smoothing
 ``` swift
 SmoothRoundedRectangle(radius: 80, smoothness: .custom(100))
-    .fill(Color.cyan)
+    .fill(.cyan)
     .frame(width: 240, height: 240)
 ```
 
 #### Uniform radii on selected corners
 ``` swift
-SmoothRoundedRectangle(radius: 80, corners: [.topLeft, .bottomRight])
-    .fill(Color.green)
+SmoothRoundedRectangle(radius: 80, corners: [.topLeading, .bottomTrailing])
+    .fill(.green)
     .frame(width: 240, height: 80)
 ```
 
 #### Different radii on different corners
 ``` swift
 SmoothRoundedRectangle(
-    topLeft: 80,
-    topRight: 20,
-    bottomRight: 80,
-    bottomLeft: 20,
-    smoothness: .iOS)
-    .frame(width: 240, height: 120)
+    topLeadingRadius: 80,
+    bottomLeadingRadius: 80,
+    bottomTrailingRadius: 20,
+    topTrailingRadius: 20,
+    smoothness: .iOS
+)
+.frame(width: 240, height: 120)
 ```
 
 ### Using inside clipShape

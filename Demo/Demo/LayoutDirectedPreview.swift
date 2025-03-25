@@ -13,9 +13,9 @@ import SmoothRoundedRectangle
 
 	let smoothUnevenShape = SmoothRoundedRectangle(
 		topLeading: 0,
-		topTrailing: radius,
-		bottomTrailing: radius,
 		bottomLeading: 0,
+		bottomTrailing: radius,
+		topTrailing: radius,
 		smoothness: .custom(100)
 	)
 

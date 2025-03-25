@@ -22,26 +22,25 @@ public struct SmoothRoundedRectangle: InsettableShape {
     
     /// Standard all corners with optional smoothness and same radius
     public init(radius: CGFloat, smoothness: Smoothness = .none) {
-        self.init(topLeading: radius, topTrailing: radius, bottomTrailing: radius, bottomLeading: radius, smoothness: smoothness)
+        self.init(topLeading: radius, bottomLeading: radius, bottomTrailing: radius, topTrailing: radius, smoothness: smoothness)
     }
     
     /// Some corners with optional smoothness and same radius
     public init(radius: CGFloat, corners: Corners, smoothness: Smoothness = .none) {
         self.init(
             topLeading: corners.contains(.topLeading) ? radius : 0,
-            topTrailing: corners.contains(.topTrailing) ? radius : 0,
-            bottomTrailing: corners.contains(.bottomTrailing) ? radius : 0,
             bottomLeading: corners.contains(.bottomLeading) ? radius : 0,
+            bottomTrailing: corners.contains(.bottomTrailing) ? radius : 0,
+            topTrailing: corners.contains(.topTrailing) ? radius : 0,
             smoothness: smoothness
         )
     }
-    
     /// Different corners with different radii and smoothing
     public init(
         topLeading: CGFloat,
-        topTrailing: CGFloat,
-        bottomTrailing: CGFloat,
         bottomLeading: CGFloat,
+        bottomTrailing: CGFloat,
+        topTrailing: CGFloat,
         smoothness: Smoothness
     ) {
         let smoothnessValue = smoothness.value

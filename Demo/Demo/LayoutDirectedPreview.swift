@@ -7,8 +7,11 @@ import SmoothRoundedRectangle
 	@Previewable @State var smoothness: Double = 50
 
 	let unevenShape = UnevenRoundedRectangle(
+		topLeadingRadius: 0,
+		bottomLeadingRadius: 0,
 		bottomTrailingRadius: radius,
-		topTrailingRadius: radius
+		topTrailingRadius: radius,
+		style: .continuous
 	)
 
 	let smoothUnevenShape = SmoothRoundedRectangle(

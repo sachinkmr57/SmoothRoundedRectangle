@@ -15,10 +15,10 @@ import SmoothRoundedRectangle
 	)
 
 	let smoothUnevenShape = SmoothRoundedRectangle(
-		topLeading: 0,
-		bottomLeading: 0,
-		bottomTrailing: radius,
-		topTrailing: radius,
+		topLeadingRadius: 0,
+		bottomLeadingRadius: 0,
+		bottomTrailingRadius: radius,
+		topTrailingRadius: radius,
 		smoothness: .custom(100)
 	)
 

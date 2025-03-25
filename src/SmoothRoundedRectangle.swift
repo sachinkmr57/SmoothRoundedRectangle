@@ -22,32 +22,32 @@ public struct SmoothRoundedRectangle: InsettableShape {
     
     /// Standard all corners with optional smoothness and same radius
     public init(radius: CGFloat, smoothness: Smoothness = .none) {
-        self.init(topLeading: radius, bottomLeading: radius, bottomTrailing: radius, topTrailing: radius, smoothness: smoothness)
+        self.init(topLeadingRadius: radius, bottomLeadingRadius: radius, bottomTrailingRadius: radius, topTrailingRadius: radius, smoothness: smoothness)
     }
     
     /// Some corners with optional smoothness and same radius
     public init(radius: CGFloat, corners: Corners, smoothness: Smoothness = .none) {
         self.init(
-            topLeading: corners.contains(.topLeading) ? radius : 0,
-            bottomLeading: corners.contains(.bottomLeading) ? radius : 0,
-            bottomTrailing: corners.contains(.bottomTrailing) ? radius : 0,
-            topTrailing: corners.contains(.topTrailing) ? radius : 0,
+            topLeadingRadius: corners.contains(.topLeading) ? radius : 0,
+            bottomLeadingRadius: corners.contains(.bottomLeading) ? radius : 0,
+            bottomTrailingRadius: corners.contains(.bottomTrailing) ? radius : 0,
+            topTrailingRadius: corners.contains(.topTrailing) ? radius : 0,
             smoothness: smoothness
         )
     }
     /// Different corners with different radii and smoothing
     public init(
-        topLeading: CGFloat,
-        bottomLeading: CGFloat,
-        bottomTrailing: CGFloat,
-        topTrailing: CGFloat,
+        topLeadingRadius: CGFloat = 0,
+        bottomLeadingRadius: CGFloat = 0,
+        bottomTrailingRadius: CGFloat = 0,
+        topTrailingRadius: CGFloat = 0,
         smoothness: Smoothness
     ) {
         let smoothnessValue = smoothness.value
-        self.topLeftCorner = CornerAttributes(radius: getLTRCorner(topLeading, topTrailing), smoothness: smoothnessValue)
-        self.topRightCorner = CornerAttributes(radius: getLTRCorner(topTrailing, topLeading), smoothness: smoothnessValue)
-        self.bottomLeftCorner = CornerAttributes(radius: getLTRCorner(bottomLeading, bottomTrailing), smoothness: smoothnessValue)
-        self.bottomRightCorner = CornerAttributes(radius: getLTRCorner(bottomTrailing, bottomLeading), smoothness: smoothnessValue)
+        self.topLeftCorner = CornerAttributes(radius: getLTRCorner(topLeadingRadius, topTrailingRadius), smoothness: smoothnessValue)
+        self.topRightCorner = CornerAttributes(radius: getLTRCorner(topTrailingRadius, topLeadingRadius), smoothness: smoothnessValue)
+        self.bottomLeftCorner = CornerAttributes(radius: getLTRCorner(bottomLeadingRadius, bottomTrailingRadius), smoothness: smoothnessValue)
+        self.bottomRightCorner = CornerAttributes(radius: getLTRCorner(bottomTrailingRadius, bottomLeadingRadius), smoothness: smoothnessValue)
     }
     
     private func getLTRCorner(_ a: CGFloat, _ b: CGFloat) ->  CGFloat {

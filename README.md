@@ -10,7 +10,7 @@ Article: [Parametric corner smoothing in SwiftUI](https://medium.com/@zvyom/para
 Below are few examples:
 #### Uniform radii on all corners with custom smoothing
 ``` swift
-SmoothRoundedRectangle(radius: 80, smoothness: .custom(100))
+SmoothRoundedRectangle(radius: 80, style: .smooth(100))
     .fill(.cyan)
     .frame(width: 240, height: 240)
 ```
@@ -29,7 +29,7 @@ SmoothRoundedRectangle(
     bottomLeadingRadius: 80,
     bottomTrailingRadius: 20,
     topTrailingRadius: 20,
-    smoothness: .iOS
+    style: .continues
 )
 .frame(width: 240, height: 120)
 ```
@@ -37,7 +37,7 @@ SmoothRoundedRectangle(
 ### Using inside clipShape
 ``` swift
 ContentView()
-    .clipShape(SmoothRoundedRectangle(radius: 12, smoothness: .iOS))
+    .clipShape(SmoothRoundedRectangle(radius: 12, style: .continues))
 ```
 ## Results and comparison
 #### A comparison of zero smoothness and 60%. <br>

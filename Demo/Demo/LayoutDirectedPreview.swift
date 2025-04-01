@@ -4,7 +4,7 @@ import SmoothRoundedRectangle
 @available(iOS 16, *)
 #Preview {
 	@Previewable @State var radius: Double = 64
-	@Previewable @State var smoothness: Double = 50
+	@Previewable @State var smoothness: Double = 1
 
 	let unevenShape = UnevenRoundedRectangle(
 		topLeadingRadius: 0,
@@ -19,7 +19,7 @@ import SmoothRoundedRectangle
 		bottomLeadingRadius: 0,
 		bottomTrailingRadius: radius,
 		topTrailingRadius: radius,
-		smoothness: .custom(100)
+		style: .smooth(smoothness)
 	)
 
 	VStack {
@@ -50,10 +50,10 @@ import SmoothRoundedRectangle
 			HStack {
 				Text("Smoothness")
 				Spacer()
-				Text(smoothness, format: .number.precision(.fractionLength(0)))
+				Text(smoothness, format: .number.precision(.fractionLength(2)))
 					.monospacedDigit()
 			}
-			Slider(value: $smoothness, in: 0...50)
+			Slider(value: $smoothness, in: 0...1)
 		}
 	}
 	.padding()

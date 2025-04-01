@@ -3,7 +3,7 @@ import SmoothRoundedRectangle
 
 struct ContentView: View {
 	@State var radius: Double = 128
-	@State var smoothness: Double = 100
+	@State var smoothness: Double = 1
 
 	var body: some View {
 		VStack(spacing: 64) {
@@ -13,7 +13,7 @@ struct ContentView: View {
 
 				SmoothRoundedRectangle(
 					radius: radius,
-					smoothness: .custom(smoothness)
+					style: .smooth(smoothness)
 				)
 				.foregroundStyle(.indigo)
 			}
@@ -34,10 +34,10 @@ struct ContentView: View {
 				HStack {
 					Text("Smoothness")
 					Spacer()
-					Text(smoothness, format: .number.precision(.fractionLength(0)))
+					Text(smoothness, format: .number.precision(.fractionLength(2)))
 						.monospacedDigit()
 				}
-				Slider(value: $smoothness, in: 0...100)
+				Slider(value: $smoothness, in: 0...1)
 			}
 		}
 		.padding()

@@ -10,10 +10,12 @@ import Foundation
 public extension SmoothRoundedRectangle {
     
     /// Smoothing factor for corner radius
-    enum Smoothness {
-        case none   // 0
-        case iOS    // 60
-        case custom(_: CGFloat) // Custom factor between 0 and 100
+    enum Style {
+        case circular // 0
+        case continuous // iOS default: 0.7
+        case smooth(_: Double) // Custom factor between 0 and 1
+
+        public static var smooth: Self { .smooth(1) }
     }
     
     struct Corners: OptionSet, Sendable {

@@ -29,7 +29,7 @@ SmoothRoundedRectangle(
     bottomLeadingRadius: 80,
     bottomTrailingRadius: 20,
     topTrailingRadius: 20,
-    style: .continues
+    style: .continuous
 )
 .frame(width: 240, height: 120)
 ```

@@ -237,7 +237,7 @@ extension SmoothRoundedRectangle.Style {
         case .continuous:
             return 0.6
         case .smooth(let value):
-            return value / 100.0
+            return value
         }
     }
 }

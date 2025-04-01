@@ -19,7 +19,7 @@ import SmoothRoundedRectangle
 		bottomLeadingRadius: 0,
 		bottomTrailingRadius: radius,
 		topTrailingRadius: radius,
-		smoothness: .custom(100)
+		style: .smooth(100)
 	)
 
 	VStack {

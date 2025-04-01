@@ -229,14 +229,14 @@ extension SmoothRoundedRectangle {
     }
 }
 
-extension SmoothRoundedRectangle.Smoothness {
+extension SmoothRoundedRectangle.Style {
     var value: CGFloat {
         switch self {
-        case .none:
+        case .circular:
             return 0
-        case .iOS:
+        case .continuous:
             return 0.6
-        case .custom(let value):
+        case .smooth(let value):
             return value / 100.0
         }
     }

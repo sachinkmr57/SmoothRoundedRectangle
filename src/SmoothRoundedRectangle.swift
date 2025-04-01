@@ -21,18 +21,18 @@ public struct SmoothRoundedRectangle: InsettableShape {
     // MARK: - Initializers
     
     /// Standard all corners with optional smoothness and same radius
-    public init(radius: CGFloat, smoothness: Smoothness = .none) {
-        self.init(topLeadingRadius: radius, bottomLeadingRadius: radius, bottomTrailingRadius: radius, topTrailingRadius: radius, smoothness: smoothness)
+    public init(radius: CGFloat, style: Style = .circular) {
+        self.init(topLeadingRadius: radius, bottomLeadingRadius: radius, bottomTrailingRadius: radius, topTrailingRadius: radius, style: style)
     }
     
     /// Some corners with optional smoothness and same radius
-    public init(radius: CGFloat, corners: Corners, smoothness: Smoothness = .none) {
+    public init(radius: CGFloat, corners: Corners, style: Style = .circular) {
         self.init(
             topLeadingRadius: corners.contains(.topLeading) ? radius : 0,
             bottomLeadingRadius: corners.contains(.bottomLeading) ? radius : 0,
             bottomTrailingRadius: corners.contains(.bottomTrailing) ? radius : 0,
             topTrailingRadius: corners.contains(.topTrailing) ? radius : 0,
-            smoothness: smoothness
+            style: style
         )
     }
     /// Different corners with different radii and smoothing
@@ -41,9 +41,9 @@ public struct SmoothRoundedRectangle: InsettableShape {
         bottomLeadingRadius: CGFloat = 0,
         bottomTrailingRadius: CGFloat = 0,
         topTrailingRadius: CGFloat = 0,
-        smoothness: Smoothness
+        style: Style
     ) {
-        let smoothnessValue = smoothness.value
+        let smoothnessValue = style.value
         self.topLeftCorner = CornerAttributes(radius: getLTRCorner(topLeadingRadius, topTrailingRadius), smoothness: smoothnessValue)
         self.topRightCorner = CornerAttributes(radius: getLTRCorner(topTrailingRadius, topLeadingRadius), smoothness: smoothnessValue)
         self.bottomLeftCorner = CornerAttributes(radius: getLTRCorner(bottomLeadingRadius, bottomTrailingRadius), smoothness: smoothnessValue)

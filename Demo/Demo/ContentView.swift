@@ -13,7 +13,7 @@ struct ContentView: View {
 
 				SmoothRoundedRectangle(
 					radius: radius,
-					smoothness: .custom(smoothness)
+					style: .smooth(smoothness)
 				)
 				.foregroundStyle(.indigo)
 			}

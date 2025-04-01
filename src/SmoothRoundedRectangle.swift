@@ -21,12 +21,12 @@ public struct SmoothRoundedRectangle: InsettableShape {
     // MARK: - Initializers
     
     /// Standard all corners with optional smoothness and same radius
-    public init(radius: CGFloat, style: Style = .circular) {
+    public init(radius: CGFloat, style: Style = .smooth) {
         self.init(topLeadingRadius: radius, bottomLeadingRadius: radius, bottomTrailingRadius: radius, topTrailingRadius: radius, style: style)
     }
     
     /// Some corners with optional smoothness and same radius
-    public init(radius: CGFloat, corners: Corners, style: Style = .circular) {
+    public init(radius: CGFloat, corners: Corners, style: Style = .smooth) {
         self.init(
             topLeadingRadius: corners.contains(.topLeading) ? radius : 0,
             bottomLeadingRadius: corners.contains(.bottomLeading) ? radius : 0,

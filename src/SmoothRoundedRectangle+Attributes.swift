@@ -14,6 +14,8 @@ public extension SmoothRoundedRectangle {
         case circular // 0
         case continuous // iOS default: 60
         case smooth(_: CGFloat) // Custom factor between 0 and 100
+        
+        public static var smooth: Self { .smooth(100) }
     }
     
     struct Corners: OptionSet, Sendable {

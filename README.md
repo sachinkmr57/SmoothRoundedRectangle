@@ -40,8 +40,8 @@ ContentView()
     .clipShape(SmoothRoundedRectangle(radius: 12, style: .continues))
 ```
 ## Results and comparison
-#### A comparison of zero smoothness and 60%. <br>
-The indigo corner has 60% smoothing and the green one has no smoothing. <br>
+#### A comparison of zero smoothness and 70%. <br>
+The indigo corner has 70% smoothing and the green one has no smoothing. <br>
 ![Group 7](https://github.com/user-attachments/assets/0390b622-a23f-42a9-a19f-0b12a059e6bb)
 
 #### A comparison of different smoothnesses and comparison with Figma's smoothness. <br>

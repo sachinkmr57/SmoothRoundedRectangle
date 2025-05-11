@@ -8,13 +8,10 @@
 import SwiftUI
 
 public struct SmoothRoundedRectangle: InsettableShape {
-    
-    @Environment(\.layoutDirection) var layoutDirection
-    
-    var topLeftCorner: CornerAttributes = .init(radius: 0)
-    var topRightCorner: CornerAttributes = .init(radius: 0)
-    var bottomLeftCorner: CornerAttributes = .init(radius: 0)
-    var bottomRightCorner: CornerAttributes = .init(radius: 0)
+    let topLeftCorner: CornerAttributes
+    let topRightCorner: CornerAttributes
+    let bottomLeftCorner: CornerAttributes
+    let bottomRightCorner: CornerAttributes
 
     var insetAmount = 0.0
 
@@ -44,14 +41,10 @@ public struct SmoothRoundedRectangle: InsettableShape {
         style: Style
     ) {
         let smoothnessValue = style.value
-        self.topLeftCorner = CornerAttributes(radius: getLTRCorner(topLeadingRadius, topTrailingRadius), smoothness: smoothnessValue)
-        self.topRightCorner = CornerAttributes(radius: getLTRCorner(topTrailingRadius, topLeadingRadius), smoothness: smoothnessValue)
-        self.bottomLeftCorner = CornerAttributes(radius: getLTRCorner(bottomLeadingRadius, bottomTrailingRadius), smoothness: smoothnessValue)
-        self.bottomRightCorner = CornerAttributes(radius: getLTRCorner(bottomTrailingRadius, bottomLeadingRadius), smoothness: smoothnessValue)
-    }
-    
-    private func getLTRCorner(_ a: CGFloat, _ b: CGFloat) ->  CGFloat {
-        layoutDirection == .rightToLeft ? b : a
+        self.topLeftCorner = CornerAttributes(radius: topLeadingRadius, smoothness: smoothnessValue)
+        self.topRightCorner = CornerAttributes(radius: topTrailingRadius, smoothness: smoothnessValue)
+        self.bottomLeftCorner = CornerAttributes(radius: bottomLeadingRadius, smoothness: smoothnessValue)
+        self.bottomRightCorner = CornerAttributes(radius: bottomTrailingRadius, smoothness: smoothnessValue)
     }
     
     // MARK: - Path

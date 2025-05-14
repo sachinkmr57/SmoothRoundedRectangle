@@ -1,7 +1,8 @@
 import SwiftUI
 import SmoothRoundedRectangle
 
-@available(iOS 16, *)
+@available(iOS 16, *) // UnevenRoundedRectangle
+@available(iOS 17, *) // @Previewable
 #Preview {
 	@Previewable @State var radius: Double = 64
 	@Previewable @State var smoothness: Double = 1

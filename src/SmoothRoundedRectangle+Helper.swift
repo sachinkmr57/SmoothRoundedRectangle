@@ -237,7 +237,8 @@ extension SmoothRoundedRectangle.Style {
         case .continuous:
             return 0.7
         case .smooth(let value):
-            return value
+            let validRange = 0...1.0
+            return max(min(value, validRange.upperBound), validRange.lowerBound)
         }
     }
 }

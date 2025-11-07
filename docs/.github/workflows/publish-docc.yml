@@ -29,7 +29,7 @@ jobs:
         # Defaults
         OUTDIR=docs
         DERIVED=build
-        HOSTING_BASE="/SmoothRoundedRectangle"   # adjust if you want to host at repo root or user site
+        HOSTING_BASE="/sachinkmr57/SmoothRoundedRectangle"   # adjust if you want to host at repo root or user site
 
         # Try to find an Xcode workspace or project, prefer Demo/ then repo root
         WORKSPACE_PATH=""

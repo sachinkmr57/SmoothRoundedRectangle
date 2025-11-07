@@ -29,7 +29,10 @@ jobs:
         # Defaults
         OUTDIR=docs
         DERIVED=build
-        HOSTING_BASE="/sachinkmr57/SmoothRoundedRectangle"   # adjust if you want to host at repo root or user site
+        # Compute hosting base for GitHub Pages repo site:
+        # GITHUB_REPOSITORY is "owner/repo" -> we want "/repo/"
+        REPO_NAME="${GITHUB_REPOSITORY##*/}"
+        HOSTING_BASE="/${REPO_NAME}/"
 
         # Try to find an Xcode workspace or project, prefer Demo/ then repo root
         WORKSPACE_PATH=""
@@ -122,6 +125,31 @@ jobs:
         $(xcrun --find docc) process-archive transform-for-static-hosting "$DOCARCHIVE" \
           --output-path "$OUTDIR" \
           --hosting-base-path "${HOSTING_BASE}"
+
+    - name: Fallback: Fix absolute asset paths to relative in HTML (safe)
+      # This is a fallback safe rewrite step to handle any remaining /js/... or /css/... root links.
+      run: |
+        set -eux
+        OUTDIR=${OUTDIR:-docs}
+        echo "Fixing absolute asset paths in HTML files under $OUTDIR (src=\"/...\" and href=\"/...\")"
+        # Use a small Python snippet (portable on macOS runners) to rewrite src="/... and href="/... to relative ./...
+        python3 - "$OUTDIR" <<'PY'
+import sys, pathlib, re
+root = pathlib.Path(sys.argv[1])
+if not root.exists():
+    print("Directory does not exist:", root)
+    sys.exit(0)
+pattern = re.compile(r'(?P<attr>(?:src|href))=(?P<q>["\'])\/')
+for f in root.rglob('*.html'):
+    try:
+        s = f.read_text(encoding='utf8')
+    except Exception:
+        continue
+    new = pattern.sub(r'\g<attr>=\g<q>./', s)
+    if new != s:
+        f.write_text(new, encoding='utf8')
+        print("Patched:", f)
+PY
 
     - name: Ensure index.html exists (DocC sometimes emits a different root)
       run: |

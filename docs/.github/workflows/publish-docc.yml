@@ -1,0 +1,141 @@
+name: Build & publish DocC (no SwiftPM plugin)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-publish:
+    name: Build DocC -> Publish to GitHub Pages
+    runs-on: macos-latest
+    steps:
+
+    - name: Checkout repository (full history)
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Detect Xcode project/workspace and prepare variables
+      id: detect
+      run: |
+        set -eux
+
+        # Defaults
+        OUTDIR=docs
+        DERIVED=build
+        HOSTING_BASE="/SmoothRoundedRectangle"   # adjust if you want to host at repo root or user site
+
+        # Try to find an Xcode workspace or project, prefer Demo/ then repo root
+        WORKSPACE_PATH=""
+        XCODE_PROJ=$(find Demo -maxdepth 2 -type d -name '*.xcodeproj' -print -quit || true)
+        XCODE_WORKSPACE=$(find Demo -maxdepth 2 -type d -name '*.xcworkspace' -print -quit || true)
+
+        if [ -n "$XCODE_WORKSPACE" ]; then
+          echo "Found workspace: $XCODE_WORKSPACE"
+          WORKSPACE_PATH="-workspace $XCODE_WORKSPACE"
+        elif [ -n "$XCODE_PROJ" ]; then
+          echo "Found project: $XCODE_PROJ"
+          WORKSPACE_PATH="-project $XCODE_PROJ"
+        else
+          # also try repo root
+          XCODE_PROJ_ROOT=$(find . -maxdepth 2 -type d -name '*.xcodeproj' -print -quit || true)
+          XCODE_WORKSPACE_ROOT=$(find . -maxdepth 2 -type d -name '*.xcworkspace' -print -quit || true)
+          if [ -n "$XCODE_WORKSPACE_ROOT" ]; then
+            echo "Found workspace at root: $XCODE_WORKSPACE_ROOT"
+            WORKSPACE_PATH="-workspace $XCODE_WORKSPACE_ROOT"
+          elif [ -n "$XCODE_PROJ_ROOT" ]; then
+            echo "Found project at root: $XCODE_PROJ_ROOT"
+            WORKSPACE_PATH="-project $XCODE_PROJ_ROOT"
+          else
+            echo "No .xcodeproj or .xcworkspace found under Demo/ or repo root."
+            WORKSPACE_PATH=""
+          fi
+        fi
+
+        # Export env for subsequent steps
+        echo "OUTDIR=$OUTDIR" >> $GITHUB_ENV
+        echo "DERIVED=$DERIVED" >> $GITHUB_ENV
+        echo "HOSTING_BASE=$HOSTING_BASE" >> $GITHUB_ENV
+        echo "WORKSPACE_PATH=$WORKSPACE_PATH" >> $GITHUB_ENV
+
+        # Print a helpful tip for debugging
+        if [ -z "$WORKSPACE_PATH" ]; then
+          echo "##[warning]No Xcode project/workspace detected automatically. You may need to set WORKSPACE_PATH and SCHEME in the workflow."
+        fi
+
+    - name: Inspect Xcode Schemes (for debugging)
+      if: always()
+      run: |
+        set -eux || true
+        echo "WORKSPACE_PATH='${{ env.WORKSPACE_PATH }}'"
+        # If we have a workspace/project, list schemes so you can confirm the scheme name
+        if [ -n "${{ env.WORKSPACE_PATH }}" ]; then
+          xcodebuild -list ${{ env.WORKSPACE_PATH }} || true
+        else
+          echo "Skipping xcodebuild -list because no workspace/project was detected."
+        fi
+
+    - name: Build documentation archive (.doccarchive)
+      env:
+        SCHEME: Demo   # <-- fallback scheme name. Change this to your actual scheme if build fails.
+      run: |
+        set -eux
+
+        # Use env vars from previous step
+        DERIVED=${DERIVED:-build}
+        WORKSPACE_PATH="${WORKSPACE_PATH}"
+
+        # If we detected a workspace/project, use xcodebuild docbuild against it.
+        # If not detected, try to run xcodebuild docbuild without workspace/project — this sometimes works if package opened in Xcode.
+        if [ -n "$WORKSPACE_PATH" ]; then
+          echo "Running xcodebuild docbuild for scheme '$SCHEME' using $WORKSPACE_PATH"
+          xcodebuild docbuild -scheme "$SCHEME" $WORKSPACE_PATH -derivedDataPath "$DERIVED"
+        else
+          echo "No workspace/project detected. Attempting xcodebuild docbuild (may fail)."
+          xcodebuild docbuild -scheme "$SCHEME" -derivedDataPath "$DERIVED" || true
+        fi
+
+        # Find generated .doccarchive
+        DOCARCHIVE=$(find "$DERIVED" -type d -name '*.doccarchive' -print -quit || true)
+        if [ -z "$DOCARCHIVE" ]; then
+          echo "##[error]No .doccarchive found in derived data. The build likely failed or created archive elsewhere."
+          echo "Look at the 'Inspect Xcode Schemes' step output and confirm the SCHEME value in this workflow."
+          exit 1
+        fi
+        echo "Found .doccarchive: $DOCARCHIVE"
+        echo "DOCARCHIVE=$DOCARCHIVE" >> $GITHUB_ENV
+
+    - name: Transform .doccarchive -> static site
+      run: |
+        set -eux
+        OUTDIR=${OUTDIR:-docs}
+        mkdir -p "$OUTDIR"
+        # Use xcrun docc from Xcode toolchain
+        DOCARCHIVE=${{ env.DOCARCHIVE }}
+        echo "Transforming $DOCARCHIVE -> $OUTDIR (hosting base: ${HOSTING_BASE})"
+        $(xcrun --find docc) process-archive transform-for-static-hosting "$DOCARCHIVE" \
+          --output-path "$OUTDIR" \
+          --hosting-base-path "${HOSTING_BASE}"
+
+    - name: Ensure index.html exists (DocC sometimes emits a different root)
+      run: |
+        set -eux
+        OUTDIR=${OUTDIR:-docs}
+        if [ ! -f "$OUTDIR/index.html" ]; then
+          echo "<!doctype html><meta http-equiv='refresh' content='0;url=tutorials/' />" > "$OUTDIR/index.html"
+        fi
+
+    - name: Deploy to GitHub Pages (gh-pages branch)
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        publish_branch: gh-pages
+        user_name: github-actions[bot]
+        user_email: 41898282+github-actions[bot]@users.noreply.github.com
